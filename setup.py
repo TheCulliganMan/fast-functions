@@ -7,7 +7,7 @@ from Cython.Build import cythonize
 
 
 def find_pyx(package_name):
-    path = f"./{package_name}/"
+    path = f"./{package_name}"
     pyx_files = []
     for root, _, filenames in os.walk(path):
         for fname in filenames:
@@ -16,10 +16,10 @@ def find_pyx(package_name):
     return pyx_files
 
 
-pachage_name = "fast_functions"
+package_name = "fast_functions"
 
 config = {
-    "name": pachage_name,
+    "name": package_name,
     "author": "Ryan Culligan",
     "author_email": "rrculligan@gmail.com",
     "url": "https://github.com/TheCulliganMan/fast-functions",
@@ -38,9 +38,9 @@ config = {
         "License :: OSI Approved :: MIT License",
         "Development Status :: 1 - Planning",
     ],
-    "packages": [pachage_name],
+    "packages": [package_name],
     "ext_modules": cythonize(
-        find_pyx(pachage_name), compiler_directives={"language_level": "3"},
+        find_pyx(package_name), compiler_directives={"language_level": "3"},
     ),
     "include_dirs": [numpy.get_include()]
 }
