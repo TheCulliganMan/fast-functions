@@ -28,7 +28,9 @@ config = {
     "license": "MIT",
     "version": "0.0.1",
     "setup_requires": ["Cython"],
-    "install_requires": [],
+    "install_requires": [
+        "numpy",
+    ],
     "dependency_links": [],
     "classifiers": [
         "Programming Language :: Python",
