@@ -2,11 +2,6 @@ from libc.math cimport sin, cos, asin, sqrt
 cimport numpy as np
 import numpy as np
 
-cdef np.float64_t PI_CONVERSION_RATIO = 0.017453293
-
-cdef np.float64_t c_degree_to_radian(np.float64_t degree):
-    return degree * PI_CONVERSION_RATIO
-
 cdef struct c_Unit:
     np.float64_t kilometers
     np.float64_t meters
@@ -27,10 +22,10 @@ MeterConverter = c_Unit(
 
 cdef np.float64_t c_haversine_single(np.float64_t lat1, np.float64_t lng1, np.float64_t lat2, np.float64_t lng2, np.float64_t unit=MeterConverter["kilometers"]):
     cdef np.float64_t rad_lat1, rad_lon1, rad_lat2, rad_lon2, lat_delta, lng_delta, a, c, km, converted
-    rad_lat1 = c_degree_to_radian(lat1)
-    rad_lng1 = c_degree_to_radian(lng1)
-    rad_lat2 = c_degree_to_radian(lat2)
-    rad_lng2 = c_degree_to_radian(lng2)
+    rad_lat1 = np.radians(lat1)
+    rad_lng1 = np.radians(lng1)
+    rad_lat2 = np.radians(lat2)
+    rad_lng2 = np.radians(lng2)
     lat_delta = rad_lat2 - rad_lat1
     lng_delta = rad_lng2 - rad_lng1
     a = sin(lat_delta / 2) ** 2 + cos(rad_lat1) * cos(rad_lat2) * sin(lng_delta / 2) ** 2
@@ -48,20 +43,17 @@ cdef np.ndarray[np.float64_t, ndim=1] c_haversine_array(
     np.float64_t unit=MeterConverter["kilometers"]
 ):
     cdef np.ndarray[np.float64_t, ndim=1] rad_lat1, rad_lon1, rad_lat2, rad_lon2, lat_delta, lng_delta, a, c, km, converted
-    rad_lat1 = lat1 * PI_CONVERSION_RATIO
-    rad_lng1 = lng2 * PI_CONVERSION_RATIO
-    rad_lat2 = lat2 * PI_CONVERSION_RATIO
-    rad_lng2 = lng2 * PI_CONVERSION_RATIO
+    rad_lat1 = np.radians(lat1)
+    rad_lng1 = np.radians(lng1)
+    rad_lat2 = np.radians(lat2)
+    rad_lng2 = np.radians(lng2)
     lat_delta = rad_lat2 - rad_lat1
     lng_delta = rad_lng2 - rad_lng1
-    a = np.sin(lat_delta / 2.0) ** 2 + np.cos(lat1) * np.cos(lat2) * np.sin(lng_delta / 2.0) ** 2
+    a = np.sin(lat_delta / 2) ** 2 + np.cos(rad_lat1) * np.cos(rad_lat2) * np.sin(lng_delta / 2) ** 2
     c = 2 * np.arcsin(np.sqrt(a))
     km = 6371 * c
     converted = unit * km
     return converted
-
-def degree_to_radian(degree: float) -> float:
-    return c_degree_to_radian(degree)
 
 def haversine_single(
     lat1: float, 
