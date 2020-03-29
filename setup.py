@@ -7,7 +7,7 @@ from Cython.Build import cythonize
 
 
 def find_pyx(package_name):
-    path = f"./{package_name}"
+    path = "./{0}".format(package_name)
     pyx_files = []
     for root, _, filenames in os.walk(path):
         for fname in filenames:
