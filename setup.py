@@ -8,8 +8,13 @@ from Cython.Build import cythonize
 
 extensions = [
     Extension(
-        "haversine", 
-        ["fast_functions/haversine.pyx"],
+        "fast_functions.haversine", 
+        ["fast_functions/haversine.pyx", "fast_functions/haversine.c"],
+        include_dirs=[numpy.get_include()]
+    ),
+    Extension(
+        "fast_functions.geodesic", 
+        ["fast_functions/geodesic.pyx", "fast_functions/geodesic.c"],
         include_dirs=[numpy.get_include()]
     )
 ]
