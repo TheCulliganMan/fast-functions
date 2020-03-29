@@ -2,19 +2,17 @@
 # -*- coding: utf-8 -*-
 import os
 import numpy
-from setuptools import find_packages, setup
+from setuptools import find_packages, setup, Extension
 from Cython.Build import cythonize
 
 
-def find_pyx(package_name):
-    path = "./{0}".format(package_name)
-    pyx_files = []
-    for root, _, filenames in os.walk(path):
-        for fname in filenames:
-            if fname.endswith(".pyx"):
-                pyx_files.append(os.path.join(root, fname))
-    return pyx_files
-
+extensions = [
+    Extension(
+        "haversine", 
+        ["fast_functions/haversine.pyx"],
+        include_dirs=[numpy.get_include()]
+    )
+]
 
 package_name = "fast_functions"
 
@@ -40,9 +38,8 @@ config = {
     ],
     "packages": [package_name],
     "ext_modules": cythonize(
-        find_pyx(package_name), compiler_directives={"language_level": "3"},
+        extensions, compiler_directives={"language_level": "3"},
     ),
-    "include_dirs": [numpy.get_include()]
 }
 
 if __name__ == "__main__":

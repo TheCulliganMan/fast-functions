@@ -7,12 +7,13 @@ try:
     minneapolis_lat, minneapolis_lng = 44.9778, -93.2650
 
     def test_haversine_array_cuda():
+        # 1.98 ms +- 8.44 us per loop (mean +- std. dev. of 7 runs, 1000 loops each)
         lat1 = cp.array([avon_lat] * 10000)
         lng1 = cp.array([avon_lng] * 10000)
         lat2 = cp.array([minneapolis_lat] * 10000)
         lng2 = cp.array([minneapolis_lng] * 10000)
         results = haversine_array_cuda(lat1, lng1, lat2, lng2)
-        assert all([round(result, 2) == 116.38 for result in results])
+        assert all([round(result, 2) == 116.38 for result in list(cp.asnumpy(results))])
 
     if __name__ == "__main__":
         test_haversine_array_cuda()
