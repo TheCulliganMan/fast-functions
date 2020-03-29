@@ -17,6 +17,13 @@ def haversine_array_cuda(
     lng2: cp.array, 
     unit: float=MeterConverter["kilometers"]
 ) -> cp.array:
+    """
+    Cupy is much faster than numpy
+    >>> print(timeit.timeit(statement_cuda, setup_cuda, number=1000))
+    2.6088396040004227
+    >>> print(timeit.timeit(statement_numpy, setup_numpy, number=1000))
+    71.15440212700014
+    """
     rad_lat1 = cp.radians(lat1)
     rad_lng1 = cp.radians(lng1)
     rad_lat2 = cp.radians(lat2)
