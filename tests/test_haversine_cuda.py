@@ -14,5 +14,8 @@ try:
         results = haversine_array_cuda(lat1, lng1, lat2, lng2)
         assert all([round(result, 2) == 116.38 for result in results])
 
+    if __name__ == "__main__":
+        test_haversine_array_cuda()
+
 except ImportError:
     pass  # not everything is cuda
