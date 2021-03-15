@@ -30,9 +30,11 @@ config = {
     "long_description": "fast-functions",
     "license": "MIT",
     "version": "0.0.1",
-    "setup_requires": ["Cython"],
+    "setup_requires": ["Cython==0.29.22", "numpy==1.20.1"],
     "install_requires": [
-        "numpy",
+        "jax",
+        "jaxlib",
+        "cupy"
     ],
     "dependency_links": [],
     "classifiers": [
